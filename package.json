@@ -1,0 +1,15 @@
+{
+  "name": "shippable",
+  "version": "0.0.1",
+  "description": "Wrapper for shippable api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "shippable",
+    "api"
+  ],
+  "author": "Chris Kinsman",
+  "license": "ISC"
+}
