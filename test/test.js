@@ -8,7 +8,7 @@ var shippableApi = new ShippableApi(process.env.SHIPPABLE_TOKEN);
 var Tests = {};
 
 Tests.getProjects = function getProjects(test) {
-    shippableApi.getProjects(function(err, projects) {
+    shippableApi.projects.list(function(err, projects) {
         test.ifError(err);
         test.equal(projects!==null, true,'No projects returned');
         test.done();
@@ -16,7 +16,7 @@ Tests.getProjects = function getProjects(test) {
 };
 
 Tests.getProject = function getProject(test) {
-    shippableApi.getProject('5490c415d46935d5fbc061b5', function(err, project) {
+    shippableApi.projects.get('5490c415d46935d5fbc061b5', function(err, project) {
         test.ifError(err);
         test.ok(project!==null, 'No project returned');
         test.done();
@@ -24,7 +24,7 @@ Tests.getProject = function getProject(test) {
 };
 
 Tests.getProjectByFullName = function getProjectByFullName(test) {
-    shippableApi.getProjectByFullName('PushSpring/eventotron', function(err, project) {
+    shippableApi.projects.getByFullName('PushSpring/eventotron', function(err, project) {
         test.ifError(err);
         test.ok(project!==null, 'No project returned: ' + project.name);
         test.equal('eventotron', project.name, 'Wrong project returned');
@@ -34,7 +34,7 @@ Tests.getProjectByFullName = function getProjectByFullName(test) {
 
 
 Tests.getBuildsForProject = function searchBuilds(test) {
-    shippableApi.getBuildsForProject('5490c415d46935d5fbc061b5', {limit: 1}, function(err, builds) {
+    shippableApi.projects.searchBuilds('5490c415d46935d5fbc061b5', {limit: 1}, function(err, builds) {
         test.ifError(err);
         test.ok(builds!==null,'Builds null');
         test.ok(builds.length===1, 'Limit failed');
@@ -45,12 +45,12 @@ Tests.getBuildsForProject = function searchBuilds(test) {
 Tests.enableBuild = function enableBuild(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.getProjectByFullName('PushSpring/s3-stream-upload', function(err, project) {
+            shippableApi.projects.getByFullName('PushSpring/s3-stream-upload', function(err, project) {
                 done(err, project.id);
             })
         },
         function enableBuild(projectId, done) {
-            shippableApi.enableBuild(projectId, done);
+            shippableApi.projects.builds.enable(projectId, done);
         }
     ], function(err) {
         test.ifError(err);
@@ -61,12 +61,12 @@ Tests.enableBuild = function enableBuild(test) {
 Tests.disableBuild = function disableBuild(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.getProjectByFullName('PushSpring/s3-stream-upload', function(err, project) {
+            shippableApi.projects.getByFullName('PushSpring/s3-stream-upload', function(err, project) {
                 done(err, project.id);
             })
         },
         function disableBuild(projectId, done) {
-            shippableApi.disableBuild(projectId, done);
+            shippableApi.projects.builds.disable(projectId, done);
         }
     ], function(err) {
         test.ifError(err);
@@ -77,12 +77,12 @@ Tests.disableBuild = function disableBuild(test) {
 Tests.newBuild = function newBuild(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.getProjectByFullName('PushSpring/psops', function(err, project) {
+            shippableApi.projects.getByFullName('PushSpring/psops', function(err, project) {
                 done(err, project.id);
             })
         },
         function newBuild(projectId, done) {
-            shippableApi.newBuild(projectId, null, done);
+            shippableApi.projects.builds.new(projectId, null, done);
         }
     ], function(err) {
         test.ifError(err);
@@ -93,17 +93,17 @@ Tests.newBuild = function newBuild(test) {
 Tests.cancelBuild = function cancelBuild(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.getProjectByFullName('PushSpring/psops', function(err, project) {
+            shippableApi.projects.getByFullName('PushSpring/psops', function(err, project) {
                 done(err, project.id);
             });
         },
         function searchBuilds(projectId, done) {
-            shippableApi.getBuildsForProject(projectId, {limit:1}, function(err, builds) {
+            shippableApi.projects.searchBuilds(projectId, {limit:1}, function(err, builds) {
                 done(err, builds[0].id)
             });
         },
         function cancelBuild(buildId, done) {
-            shippableApi.cancelBuild(buildId, done);
+            shippableApi.builds.cancel(buildId, done);
         }
     ], function(err) {
         test.ifError(err);
@@ -114,17 +114,17 @@ Tests.cancelBuild = function cancelBuild(test) {
 Tests.buildDetail = function buildDetail(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.getProjectByFullName('PushSpring/ps-workers', function(err, project) {
+            shippableApi.projects.getByFullName('PushSpring/ps-workers', function(err, project) {
                 done(err, project.id);
             });
         },
         function searchBuilds(projectId, done) {
-            shippableApi.getBuildsForProject(projectId, {limit:1}, function(err, builds) {
+            shippableApi.projects.searchBuilds(projectId, {limit:1}, function(err, builds) {
                 done(err, builds[0].id)
             });
         },
         function buildDetails(buildId, done) {
-            shippableApi.getBuildDetails(buildId, done);
+            shippableApi.builds.get(buildId, done);
         }
     ], function(err, result) {
         test.ifError(err);
@@ -134,7 +134,7 @@ Tests.buildDetail = function buildDetail(test) {
 };
 
 Tests.getSubscriptions = function getSubscriptions(test) {
-    shippableApi.getSubscriptions(function(err, subscriptions) {
+    shippableApi.subscriptions.list(function(err, subscriptions) {
         test.ifError(err);
         test.ok(subscriptions!==null, 'No subscriptions');
         test.ok(subscriptions.length > 0, 'Length 0 descriptions');
@@ -143,7 +143,7 @@ Tests.getSubscriptions = function getSubscriptions(test) {
 };
 
 Tests.getSubscription = function getSubscription(test) {
-    shippableApi.getSubscription('5490c3add46935d5fbc061a8', function(err, subscription) {
+    shippableApi.subscriptions.get('5490c3add46935d5fbc061a8', function(err, subscription) {
         test.ifError(err);
         test.ok(subscription!==null, 'No subscriptions');
         test.done();
@@ -152,7 +152,7 @@ Tests.getSubscription = function getSubscription(test) {
 
 
 Tests.getSubscriptionByOrgName = function getSubscriptionByOrgName(test) {
-    shippableApi.getSubscriptionByOrgName('PushSpring', function(err, subscription) {
+    shippableApi.subscriptions.getByOrgName('PushSpring', function(err, subscription) {
         test.ifError(err);
         test.ok(subscription!=null, 'No subscription');
         test.equal(subscription.orgName, 'PushSpring', 'Wrong subscription');
@@ -163,12 +163,12 @@ Tests.getSubscriptionByOrgName = function getSubscriptionByOrgName(test) {
 Tests.getBuildsForSubscription = function getBuildsForSubscription(test) {
     async.waterfall([
         function getSubscriptionId(done) {
-            shippableApi.getSubscriptionByOrgName('PushSpring', function(err, subscription) {
+            shippableApi.subscriptions.getByOrgName('PushSpring', function(err, subscription) {
                 done(err, subscription.id);
             });
         },
         function searchBuilds(subscriptionId, done) {
-            shippableApi.getBuildsForSubscription(subscriptionId, {limit:1}, function(err, builds) {
+            shippableApi.subscriptions.searchBuilds(subscriptionId, {limit:1}, function(err, builds) {
                 done(err, builds)
             });
         }
@@ -181,7 +181,7 @@ Tests.getBuildsForSubscription = function getBuildsForSubscription(test) {
 };
 
 Tests.getAccounts = function getAccounts(test) {
-    shippableApi.getAccounts(function(err, accounts) {
+    shippableApi.accounts.list(function(err, accounts) {
         test.ifError(err);
         test.ok(accounts!==null, 'No accounts');
         test.ok(accounts.length > 0, 'Length 0 accounts');
@@ -190,7 +190,7 @@ Tests.getAccounts = function getAccounts(test) {
 };
 
 Tests.getBuildsForAccounts = function getBuildsForAccounts(test) {
-    shippableApi.getBuildsForAccount('5490c3ac60108e0e00ef1836', {limit:1}, function(err, builds) {
+    shippableApi.accounts.searchBuilds('5490c3ac60108e0e00ef1836', {limit:1}, function(err, builds) {
         test.ifError(err);
         test.ok(builds!==null, 'No builds');
         test.ok(builds.length > 0, 'Length 0 builds');
