@@ -4,7 +4,7 @@
   "description": "Wrapper for shippable api",
   "main": "shippableapi.js",
   "scripts": {
-    "test": "./node_modules/.bin/nodeunit test/test.js -t getBuildsForAccounts"
+    "test": "./node_modules/.bin/nodeunit test/test.js"
   },
   "keywords": [
     "shippable",
