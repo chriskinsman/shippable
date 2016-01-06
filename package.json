@@ -2,9 +2,9 @@
   "name": "shippable",
   "version": "0.0.1",
   "description": "Wrapper for shippable api",
-  "main": "index.js",
+  "main": "shippableapi.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/nodeunit test/test.js"
   },
   "keywords": [
     "shippable",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "lodash": "^3.10.1",
+    "nodeunit": "^0.9.1",
     "request": "^2.67.0"
   }
 }
