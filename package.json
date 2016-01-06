@@ -20,6 +20,7 @@
     "url": "https://github.com/chriskinsman/shippable/issues"
   },
   "dependencies": {
+    "async": "^1.5.1",
     "lodash": "^3.10.1",
     "nodeunit": "^0.9.1",
     "request": "^2.67.0"
