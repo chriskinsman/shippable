@@ -1,6 +1,7 @@
 
   Shippable Api
-
+    
+  [![Build Status][shippable-image][shippable-url]]  
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
 
@@ -28,6 +29,7 @@ The author is [Chris Kinsman](https://github.com/chriskinsman)
   [MIT](LICENSE)
 
 [shippable-image]: https://img.shields.io/shippable/568d2b531895ca447467a94e.svg
+[shippable-url]: https://app.shippable.com/projects/568d2b531895ca447467a94e
 [npm-image]: https://img.shields.io/npm/v/shippable.svg?style=flat
 [npm-url]: https://npmjs.org/package/shippable
 [downloads-image]: https://img.shields.io/npm/dm/shippable.svg?style=flat
