@@ -12,4 +12,4 @@ install:
   - shippable_retry npm install
 
 script:
-#  - gulp build
+  - node_modules/.bin/nodeunit ./test/test.js --reporter junit --output shippable/testresults
