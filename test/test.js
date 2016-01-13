@@ -16,7 +16,7 @@ Tests.getProjects = function getProjects(test) {
 };
 
 Tests.getProject = function getProject(test) {
-    shippableApi.projects.get('5490c415d46935d5fbc061b5', function(err, project) {
+    shippableApi.projects.get('5696b3ba1895ca4474683350', function(err, project) {
         test.ifError(err);
         test.ok(project!==null, 'No project returned');
         test.done();
@@ -24,17 +24,17 @@ Tests.getProject = function getProject(test) {
 };
 
 Tests.getProjectByFullName = function getProjectByFullName(test) {
-    shippableApi.projects.getByFullName('PushSpring/eventotron', function(err, project) {
+    shippableApi.projects.getByFullName('chriskinsman/shippable-test', function(err, project) {
         test.ifError(err);
         test.ok(project!==null, 'No project returned: ' + project.name);
-        test.equal('eventotron', project.name, 'Wrong project returned');
+        test.equal('shippable-test', project.name, 'Wrong project returned');
         test.done();
     })
 };
 
 
 Tests.getBuildsForProject = function searchBuilds(test) {
-    shippableApi.projects.searchBuilds('5490c415d46935d5fbc061b5', {limit: 1}, function(err, builds) {
+    shippableApi.projects.searchBuilds('5696b3ba1895ca4474683350', {limit: 1}, function(err, builds) {
         test.ifError(err);
         test.ok(builds!==null,'Builds null');
         test.ok(builds.length===1, 'Limit failed');
@@ -45,7 +45,7 @@ Tests.getBuildsForProject = function searchBuilds(test) {
 Tests.enableBuild = function enableBuild(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.projects.getByFullName('PushSpring/s3-stream-upload', function(err, project) {
+            shippableApi.projects.getByFullName('chriskinsman/shippable-test', function(err, project) {
                 done(err, project.id);
             })
         },
@@ -61,7 +61,7 @@ Tests.enableBuild = function enableBuild(test) {
 Tests.disableBuild = function disableBuild(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.projects.getByFullName('PushSpring/s3-stream-upload', function(err, project) {
+            shippableApi.projects.getByFullName('chriskinsman/shippable-test', function(err, project) {
                 done(err, project.id);
             })
         },
@@ -77,7 +77,7 @@ Tests.disableBuild = function disableBuild(test) {
 Tests.newBuild = function newBuild(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.projects.getByFullName('PushSpring/psops', function(err, project) {
+            shippableApi.projects.getByFullName('chriskinsman/shippable-test', function(err, project) {
                 done(err, project.id);
             })
         },
@@ -93,7 +93,7 @@ Tests.newBuild = function newBuild(test) {
 Tests.cancelBuild = function cancelBuild(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.projects.getByFullName('PushSpring/psops', function(err, project) {
+            shippableApi.projects.getByFullName('chriskinsman/shippable-test', function(err, project) {
                 done(err, project.id);
             });
         },
@@ -114,7 +114,7 @@ Tests.cancelBuild = function cancelBuild(test) {
 Tests.buildDetail = function buildDetail(test) {
     async.waterfall([
         function getProjectId(done) {
-            shippableApi.projects.getByFullName('PushSpring/ps-workers', function(err, project) {
+            shippableApi.projects.getByFullName('chriskinsman/shippable-test', function(err, project) {
                 done(err, project.id);
             });
         },
@@ -143,7 +143,7 @@ Tests.getSubscriptions = function getSubscriptions(test) {
 };
 
 Tests.getSubscription = function getSubscription(test) {
-    shippableApi.subscriptions.get('5490c3add46935d5fbc061a8', function(err, subscription) {
+    shippableApi.subscriptions.get('5490c3add46935d5fbc061aa', function(err, subscription) {
         test.ifError(err);
         test.ok(subscription!==null, 'No subscriptions');
         test.done();
@@ -152,10 +152,10 @@ Tests.getSubscription = function getSubscription(test) {
 
 
 Tests.getSubscriptionByOrgName = function getSubscriptionByOrgName(test) {
-    shippableApi.subscriptions.getByOrgName('PushSpring', function(err, subscription) {
+    shippableApi.subscriptions.getByOrgName('chriskinsman', function(err, subscription) {
         test.ifError(err);
         test.ok(subscription!=null, 'No subscription');
-        test.equal(subscription.orgName, 'PushSpring', 'Wrong subscription');
+        test.equal(subscription.orgName, 'chriskinsman', 'Wrong subscription');
         test.done();
     });
 };
@@ -163,7 +163,7 @@ Tests.getSubscriptionByOrgName = function getSubscriptionByOrgName(test) {
 Tests.getBuildsForSubscription = function getBuildsForSubscription(test) {
     async.waterfall([
         function getSubscriptionId(done) {
-            shippableApi.subscriptions.getByOrgName('PushSpring', function(err, subscription) {
+            shippableApi.subscriptions.getByOrgName('chriskinsman', function(err, subscription) {
                 done(err, subscription.id);
             });
         },
