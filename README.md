@@ -1,7 +1,7 @@
 
   Shippable Api
     
-  [![Build Status][shippable-image][shippable-url]]  
+  [![Build Status][shippable-image]][shippable-url]  
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
 
