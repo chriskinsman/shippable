@@ -53,24 +53,6 @@ __Arguments__
 * `buildId` - Id of the build to cancel
 * `callback(err)` - Callback with error 
 
-#### disable(projectId, callback)
-
-Disables a project so that it doesn't build
-
-__Arguments__
-
-* `projectId` - Id of project to disable
-* `callback(err)` - Callback with error
-
-#### enable(projectId, callback)
-
-Enables a project to build
-
-__Arguments__
-
-* `projectId` - Id of project to enable
-* `callback(err)` - Callback with error
-
 #### get(buildId, callback)
 
 Get the details of a build
@@ -80,14 +62,35 @@ __Arguments__
 * `buildId` - Id of build to retrieve details about
 * `callback(err, buildDetail)` - Callback with error or buildDetail
 
-#### new(projectId, callback)
+
+### projects
+
+#### builds.disable(projectId, callback)
+
+Disables a project so that it doesn't build
+
+__Arguments__
+
+* `projectId` - Id of project to disable
+* `callback(err)` - Callback with error
+
+#### builds.enable(projectId, callback)
+
+Enables a project to build
+
+__Arguments__
+
+* `projectId` - Id of project to enable
+* `callback(err)` - Callback with error
+
+
+#### builds.new(projectId, callback)
 
 Triggers a build for the project
 
 * `projectId` - Id of project to trigger a build on
 * `callback(err)` - Callback with error
 
-### projects
 
 #### get(projectId, callback)
 
@@ -127,6 +130,32 @@ __Arguments__
 
 ### subscriptions
 
+#### get(subscriptionId, callback)
+
+Get details about a subscription.
+
+__Arguments__
+
+* `subscriptionId` - Id of subscription to get details about.
+* `callback(err, subscription)` - Callback with error or subscription details. Subscription is null if not found.
+
+#### getByOrgName(orgName, callback)
+
+Gets details about a subscription using the organization name of the project to look it up.  Checks local cache first and if not found
+makes a call to list() to get a full list of subscriptions and caches it.
+
+__Arguments__
+
+* `orgName` - Organization name of project from github.  This is a case sensitive match.
+* `callback(err, subscription)` - Callback with error or subscription details.  Subscription is null if not found.
+
+#### list(callback)
+
+List all subscriptions associated with token.  This may be across multiple organizations.
+
+__Arguments__
+
+* `callback(err, subscriptions)` - Callback with error or array of subscriptions.
 
 ## People
 

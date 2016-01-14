@@ -1,6 +1,6 @@
 {
   "name": "shippable",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Wrapper for shippable api",
   "main": "shippableapi.js",
   "scripts": {
