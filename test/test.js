@@ -23,10 +23,63 @@ Tests.getRun = function getRun(test) {
     });
 };
 
+Tests.getJobs = function getJobs(test) {
+    shippableApi.jobs.list(function(err, jobs) {
+        test.ifError(err);
+        console.dir(jobs);
+        test.equal(jobs!=null, true, 'No jobs returned');
+        test.done();
+    });
+};
+
+Tests.getJob = function getJob(test) {
+    shippableApi.jobs.get('', function(err, job) {
+        test.ifError(err);
+        console.dir(job);
+        test.equal(job!=null, true, 'No job returned');
+        test.done();
+    });
+};
+
+Tests.downloadConsoleLog = function downloadConsoleLog(test) {
+    shippableApi.jobs.downloadConsoleLog('', function(err, log) {
+        test.ifError(err);
+        console.dir(log);
+        test.equal(log!=null, true, 'No log returned');
+        test.done();
+    });
+};
+
+Tests.getCoverageReport = function getCoverageReport(test) {
+    shippableApi.jobs.getCoverageReport('', function(err, report) {
+        test.ifError(err);
+        console.dir(report);
+        test.equal(report!=null, true, 'No report returned');
+        test.done();
+    });
+};
+
+Tests.getTestReport = function getTestReport(test) {
+    shippableApi.jobs.getTestReport('', function(err, report) {
+        test.ifError(err);
+        console.dir(report);
+        test.equal(report!=null, true, 'No report returned');
+        test.done();
+    });
+};
+
+Tests.deleteJob = function deleteJob(test) {
+    shippableApi.jobs.delete('', function(err, job) {
+        test.ifError(err);
+        console.dir(report);
+        test.equal(report!=null, true, 'No job returned');
+        test.done();
+    });
+};
 
 
 Tests.getProjects = function getProjects(test) {
-    shippableApi.projects.list(function(err, projects) {
+    shippableApi.projects.list({}, function(err, projects) {
         test.ifError(err);
         test.equal(projects!==null, true,'No projects returned');
         test.done();

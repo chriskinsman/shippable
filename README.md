@@ -167,6 +167,62 @@ __Arguments__
 * `runId` - Id of run to delete
 * `callback(err, run)` - Callback with error or results from delete.
 
+### jobs
+
+#### list(query, callback)
+
+List jobs
+
+__Arguments__
+
+* `query` - Query object for filtering jobs.  See shippable docs for options.
+* `callback(err, jobs)` - Callback with error or array of jobs.
+
+
+#### get(jobId, callback)
+
+Get details about a job
+
+__Arguments__
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, job)` - Callback with error or job details.
+
+#### downloadConsoleLog(jobId, callback)
+
+Download the console log
+
+__Arguments__
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, log)` - Callback with error or console log.
+
+
+#### getCoverageReport(jobId, callback)
+
+Get the test coverage report
+
+__Arguments__
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, report)` - Callback with error or report.
+
+#### getTestReport(jobId, callback)
+
+Get the test report
+
+__Arguments__
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, report)` - Callback with error or report.
+
+#### delete(jobId, callback)
+
+Delete a job
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, job)` - Callback with error or details of deleted job.
+
 
 ### subscriptions
 

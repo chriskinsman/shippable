@@ -14,6 +14,7 @@ var Subscriptions = require('./lib/subscriptions');
 var Accounts = require('./lib/accounts');
 var Builds = require('./lib/builds');
 var Runs = require('./lib/runs');
+var Jobs = require('./lib/jobs');
 
 function ShippableApi(apiToken, options) {
     var httpMethods = new HttpMethods(apiToken, options);
@@ -22,6 +23,7 @@ function ShippableApi(apiToken, options) {
     this.projects = new Projects(httpMethods);
     this.builds = new Builds(httpMethods);
     this.runs = new Runs(httpMethods);
+    this.jobs = new Jobs(httpMethods);
 }
 
 module.exports = ShippableApi;
