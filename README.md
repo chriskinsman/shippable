@@ -30,15 +30,33 @@ __Arguments__
 
 * `callback(err, accounts)` - Callback with error or data
 
-#### searchBuilds(accountId, searchParams, callback)
+#### get(accountId, callback)
 
-Gets a list of builds associated with the accountId.
+Gets details about an account
 
 __Arguments__
 
-* `accountId` - Id of the account to search for builds
-* `searchParams` - Hash with any of the valid shippable options including sortBy, sortOrder, status, branch, isPR, limit, skip, projectId, and subscriptionId.
-* `callback(err, builds)` - Callback with error or data
+* `accountId` - Id of account to retrieve details for
+* `callback(err, account)` - Callback with error or account details
+
+#### runStatus(accountId, callback)
+
+Gets status of all runs for all enabled projects across all subscriptions
+
+__Arguments__
+
+* `accountId` - Id of account to get status for
+* `callback(err, status)` - Callback with error or status
+
+#### dependencies(accountId, callback)
+
+Gets all account dependencies including subscriptions, enabled projects, credit cards and 
+account integrations.
+
+__Arguments__
+
+* `accountId` - Id of account to get dependencies for
+* `callback(err, dependencies)` - Callback with error or dependencies
 
 ### builds
 
@@ -101,6 +119,16 @@ __Arguments__
 * `projectId` - Id of project to get details about.
 * `callback(err, project)` - Callback with error or project details. Project is null if not found.
 
+#### getBranchRunStatus(projectId, callback)
+
+Get details about the branch runs of a project
+
+__Arguments__
+
+* `projectId` - Id of project to get branch runs for.
+* `callback(err, project)` - Callback with error or branch runs.
+
+
 #### getByFullName(fullName, callback)
 
 Gets details about a project using the full name of the project to look it up.  Checks local cache first and if not found
@@ -111,12 +139,13 @@ __Arguments__
 * `fullName` - Full name of project in github format i.e. chriskinsman/shippable.  This is a case sensitive match.
 * `callback(err, project)` - Callback with error or project details.  Project is null if not found.
 
-#### list(callback)
+#### list(query, callback)
 
 List all projects associated with token.  This may be across multiple organizations.
 
 __Arguments__
 
+* `query` - Query parameters to filter projects.  See shippable api docs for details.
 * `callback(err, projects)` - Callback with error or array of projects.
 
 #### searchBuilds(projectId, callback)
@@ -245,13 +274,32 @@ __Arguments__
 * `orgName` - Organization name of project from github.  This is a case sensitive match.
 * `callback(err, subscription)` - Callback with error or subscription details.  Subscription is null if not found.
 
-#### list(callback)
+#### list(query, callback)
 
 List all subscriptions associated with token.  This may be across multiple organizations.
 
 __Arguments__
 
+* `query` - Filter parameters.  See shippable documentation for details
 * `callback(err, subscriptions)` - Callback with error or array of subscriptions.
+
+#### getActiveMinionCount(subscriptionId, callback)
+
+Gets the active minion count associated with subscription
+
+__Arguments__
+
+* `subscriptionId` - Id of subscription to get active minion count for.
+* `callback(err, count)` - Callback with error or count.
+
+#### delete(subscriptionId, callback)
+
+Deletes a subscription
+
+__Arguments__
+
+* `subscriptionId` - Id of subscription to delete
+* `callback(err, subscription)` - Callback with error or subscription that was deleted.
 
 ## People
 

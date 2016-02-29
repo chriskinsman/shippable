@@ -18,7 +18,7 @@ Tests.getRuns = function getRuns(test) {
 Tests.getRun = function getRun(test) {
     shippableApi.runs.get('', function(err, run) {
         test.ifError(err);
-        test.equal(runs!==null, true,'No run returned');
+        test.equal(run!==null, true,'No run returned');
         test.done();
     });
 };
@@ -26,7 +26,6 @@ Tests.getRun = function getRun(test) {
 Tests.getJobs = function getJobs(test) {
     shippableApi.jobs.list(function(err, jobs) {
         test.ifError(err);
-        console.dir(jobs);
         test.equal(jobs!=null, true, 'No jobs returned');
         test.done();
     });
@@ -35,47 +34,42 @@ Tests.getJobs = function getJobs(test) {
 Tests.getJob = function getJob(test) {
     shippableApi.jobs.get('', function(err, job) {
         test.ifError(err);
-        console.dir(job);
         test.equal(job!=null, true, 'No job returned');
         test.done();
     });
 };
 
-Tests.downloadConsoleLog = function downloadConsoleLog(test) {
-    shippableApi.jobs.downloadConsoleLog('', function(err, log) {
-        test.ifError(err);
-        console.dir(log);
-        test.equal(log!=null, true, 'No log returned');
-        test.done();
-    });
-};
-
-Tests.getCoverageReport = function getCoverageReport(test) {
-    shippableApi.jobs.getCoverageReport('', function(err, report) {
-        test.ifError(err);
-        console.dir(report);
-        test.equal(report!=null, true, 'No report returned');
-        test.done();
-    });
-};
-
-Tests.getTestReport = function getTestReport(test) {
-    shippableApi.jobs.getTestReport('', function(err, report) {
-        test.ifError(err);
-        console.dir(report);
-        test.equal(report!=null, true, 'No report returned');
-        test.done();
-    });
-};
-
-Tests.deleteJob = function deleteJob(test) {
-    shippableApi.jobs.delete('', function(err, job) {
-        test.ifError(err);
-        console.dir(report);
-        test.equal(report!=null, true, 'No job returned');
-        test.done();
-    });
-};
+//Tests.downloadConsoleLog = function downloadConsoleLog(test) {
+//    shippableApi.jobs.downloadConsoleLog('', function(err, log) {
+//        test.ifError(err);
+//        test.equal(log!=null, true, 'No log returned');
+//        test.done();
+//    });
+//};
+//
+//Tests.getCoverageReport = function getCoverageReport(test) {
+//    shippableApi.jobs.getCoverageReport('', function(err, report) {
+//        test.ifError(err);
+//        test.equal(report!=null, true, 'No report returned');
+//        test.done();
+//    });
+//};
+//
+//Tests.getTestReport = function getTestReport(test) {
+//    shippableApi.jobs.getTestReport('', function(err, report) {
+//        test.ifError(err);
+//        test.equal(report!=null, true, 'No report returned');
+//        test.done();
+//    });
+//};
+//
+//Tests.deleteJob = function deleteJob(test) {
+//    shippableApi.jobs.delete('', function(err, job) {
+//        test.ifError(err);
+//        test.equal(report!=null, true, 'No job returned');
+//        test.done();
+//    });
+//};
 
 
 Tests.getProjects = function getProjects(test) {
@@ -103,12 +97,10 @@ Tests.getProjectByFullName = function getProjectByFullName(test) {
     })
 };
 
-
-Tests.getBuildsForProject = function searchBuilds(test) {
-    shippableApi.projects.searchBuilds('5696b3ba1895ca4474683350', {limit: 1}, function(err, builds) {
+Tests.getBranchRunStatus = function getBranchRunStatus(test) {
+    shippableApi.projects.getBranchRunStatus('5696b3ba1895ca4474683350', function(err, runs) {
         test.ifError(err);
-        test.ok(builds!==null,'Builds null');
-        test.ok(builds.length===1, 'Limit failed');
+        test.ok(runs!==null, 'No runs returned');
         test.done();
     });
 };
@@ -152,6 +144,12 @@ Tests.newBuild = function newBuild(test) {
                 done(err, project.id);
             })
         },
+        // Make sure the build is enabled otherwise new build will fail
+        function enableBuild(projectId, done) {
+            shippableApi.projects.builds.enable(projectId, function(err) {
+                done(err, projectId);
+            });
+        },
         function newBuild(projectId, done) {
             shippableApi.projects.builds.new(projectId, null, done);
         }
@@ -161,51 +159,8 @@ Tests.newBuild = function newBuild(test) {
     });
 };
 
-Tests.cancelBuild = function cancelBuild(test) {
-    async.waterfall([
-        function getProjectId(done) {
-            shippableApi.projects.getByFullName('chriskinsman/shippable-test', function(err, project) {
-                done(err, project.id);
-            });
-        },
-        function searchBuilds(projectId, done) {
-            shippableApi.projects.searchBuilds(projectId, {limit:1}, function(err, builds) {
-                done(err, builds[0].id)
-            });
-        },
-        function cancelBuild(buildId, done) {
-            shippableApi.builds.cancel(buildId, done);
-        }
-    ], function(err) {
-        test.ifError(err);
-        test.done();
-    });
-};
-
-Tests.buildDetail = function buildDetail(test) {
-    async.waterfall([
-        function getProjectId(done) {
-            shippableApi.projects.getByFullName('chriskinsman/shippable-test', function(err, project) {
-                done(err, project.id);
-            });
-        },
-        function searchBuilds(projectId, done) {
-            shippableApi.projects.searchBuilds(projectId, {limit:1}, function(err, builds) {
-                done(err, builds[0].id)
-            });
-        },
-        function buildDetails(buildId, done) {
-            shippableApi.builds.get(buildId, done);
-        }
-    ], function(err, result) {
-        test.ifError(err);
-        test.ok(result!=null, 'No build details');
-        test.done();
-    });
-};
-
 Tests.getSubscriptions = function getSubscriptions(test) {
-    shippableApi.subscriptions.list(function(err, subscriptions) {
+    shippableApi.subscriptions.list({}, function(err, subscriptions) {
         test.ifError(err);
         test.ok(subscriptions!==null, 'No subscriptions');
         test.ok(subscriptions.length > 0, 'Length 0 descriptions');
@@ -231,25 +186,14 @@ Tests.getSubscriptionByOrgName = function getSubscriptionByOrgName(test) {
     });
 };
 
-Tests.getBuildsForSubscription = function getBuildsForSubscription(test) {
-    async.waterfall([
-        function getSubscriptionId(done) {
-            shippableApi.subscriptions.getByOrgName('chriskinsman', function(err, subscription) {
-                done(err, subscription.id);
-            });
-        },
-        function searchBuilds(subscriptionId, done) {
-            shippableApi.subscriptions.searchBuilds(subscriptionId, {limit:1}, function(err, builds) {
-                done(err, builds)
-            });
-        }
-    ], function(err, result) {
-        test.ifError(err);
-        test.ok(result!=null, 'No builds');
-        test.ok(result.length===1, 'Not exactly one build');
-        test.done();
-    });
-};
+//Tests.getActiveMinionCount = function getActiveMinionCount(test) {
+//    shippableApi.subscriptions.getActiveMinionCount('chriskinsman', function(err, minionCount) {
+//        test.ifError(err);
+//        console.dir(minionCount);
+//        test.ok(minionCount!=null, 'No count');
+//        test.done();
+//    });
+//};
 
 Tests.getAccounts = function getAccounts(test) {
     shippableApi.accounts.list(function(err, accounts) {
@@ -260,14 +204,30 @@ Tests.getAccounts = function getAccounts(test) {
     });
 };
 
-Tests.getBuildsForAccounts = function getBuildsForAccounts(test) {
-    shippableApi.accounts.searchBuilds('5490c3ac60108e0e00ef1836', {limit:1}, function(err, builds) {
+Tests.getAccount = function getAccount(test) {
+    shippableApi.accounts.get('5490c3ac60108e0e00ef1836', function(err, account) {
         test.ifError(err);
-        test.ok(builds!==null, 'No builds');
-        test.ok(builds.length > 0, 'Length 0 builds');
+        test.ok(account!==null, 'No account');
         test.done();
     });
 };
+
+Tests.runStatus = function runStatus(test) {
+    shippableApi.accounts.runStatus('5490c3ac60108e0e00ef1836', function(err, status) {
+        test.ifError(err);
+        test.ok(status!==null, 'No status');
+        test.done();
+    });
+};
+
+Tests.dependencies = function dependencies(test) {
+    shippableApi.accounts.dependencies('5490c3ac60108e0e00ef1836', function(err, dependencies) {
+        test.ifError(err);
+        test.ok(dependencies!==null, 'No dependencies');
+        test.done();
+    });
+};
+
 
 
 module.exports = Tests;
