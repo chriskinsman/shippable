@@ -22,32 +22,6 @@ $ npm install shippable
 
 Information associated with accounts.
 
-#### list(callback)
-
-Gets a list of the accounts the token can access.
-
-__Arguments__
-
-* `callback(err, accounts)` - Callback with error or data
-
-#### get(accountId, callback)
-
-Gets details about an account
-
-__Arguments__
-
-* `accountId` - Id of account to retrieve details for
-* `callback(err, account)` - Callback with error or account details
-
-#### runStatus(accountId, callback)
-
-Gets status of all runs for all enabled projects across all subscriptions
-
-__Arguments__
-
-* `accountId` - Id of account to get status for
-* `callback(err, status)` - Callback with error or status
-
 #### dependencies(accountId, callback)
 
 Gets all account dependencies including subscriptions, enabled projects, credit cards and 
@@ -58,27 +32,85 @@ __Arguments__
 * `accountId` - Id of account to get dependencies for
 * `callback(err, dependencies)` - Callback with error or dependencies
 
-### builds
+#### get(accountId, callback)
 
-Information associated with builds.
-
-#### cancel(buildId, callback)
-
-Cancels a build
+Gets details about an account
 
 __Arguments__
 
-* `buildId` - Id of the build to cancel
-* `callback(err)` - Callback with error 
+* `accountId` - Id of account to retrieve details for
+* `callback(err, account)` - Callback with error or account details
 
-#### get(buildId, callback)
+#### list(callback)
 
-Get the details of a build
+Gets a list of the accounts the token can access.
 
 __Arguments__
 
-* `buildId` - Id of build to retrieve details about
-* `callback(err, buildDetail)` - Callback with error or buildDetail
+* `callback(err, accounts)` - Callback with error or data
+
+#### runStatus(accountId, callback)
+
+Gets status of all runs for all enabled projects across all subscriptions
+
+__Arguments__
+
+* `accountId` - Id of account to get status for
+* `callback(err, status)` - Callback with error or status
+
+### jobs
+
+#### delete(jobId, callback)
+
+Delete a job
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, job)` - Callback with error or details of deleted job.
+
+#### downloadConsoleLog(jobId, callback)
+
+Download the console log
+
+__Arguments__
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, log)` - Callback with error or console log.
+
+#### get(jobId, callback)
+
+Get details about a job
+
+__Arguments__
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, job)` - Callback with error or job details.
+
+#### getCoverageReport(jobId, callback)
+
+Get the test coverage report
+
+__Arguments__
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, report)` - Callback with error or report.
+
+#### getTestReport(jobId, callback)
+
+Get the test report
+
+__Arguments__
+
+* `jobId` - Id of job to retrieve details for
+* `callback(err, report)` - Callback with error or report.
+
+#### list(query, callback)
+
+List jobs
+
+__Arguments__
+
+* `query` - Query object for filtering jobs.  See shippable docs for options.
+* `callback(err, jobs)` - Callback with error or array of jobs.
 
 
 ### projects
@@ -148,34 +180,8 @@ __Arguments__
 * `query` - Query parameters to filter projects.  See shippable api docs for details.
 * `callback(err, projects)` - Callback with error or array of projects.
 
-#### searchBuilds(projectId, callback)
-
-Searches the builds associated with a project.
-
-__Arguments__
-
-* `projectId` - Id of the project to search.
-* `callback(err, builds)` - Callback with error or array of builds.
 
 ### runs
-
-#### list(query, callback)
-
-List all runs associated with token.
-
-__Arguments__
-
-* `query` - Query object for filtering runs.  See shippable docs for options.
-* `callback(err, runs)` - Callback with error or array of runs.
-
-#### get(runId, callback)
-
-Get details about a run.
-
-__Arguments__
-
-* `runId` - Id of run to retrieve details for
-* `callback(err, run)` - Callback with error or run details.
 
 #### cancel(runId, callback)
 
@@ -196,64 +202,34 @@ __Arguments__
 * `runId` - Id of run to delete
 * `callback(err, run)` - Callback with error or results from delete.
 
-### jobs
+#### get(runId, callback)
+
+Get details about a run.
+
+__Arguments__
+
+* `runId` - Id of run to retrieve details for
+* `callback(err, run)` - Callback with error or run details.
 
 #### list(query, callback)
 
-List jobs
+List all runs associated with token.
 
 __Arguments__
 
-* `query` - Query object for filtering jobs.  See shippable docs for options.
-* `callback(err, jobs)` - Callback with error or array of jobs.
-
-
-#### get(jobId, callback)
-
-Get details about a job
-
-__Arguments__
-
-* `jobId` - Id of job to retrieve details for
-* `callback(err, job)` - Callback with error or job details.
-
-#### downloadConsoleLog(jobId, callback)
-
-Download the console log
-
-__Arguments__
-
-* `jobId` - Id of job to retrieve details for
-* `callback(err, log)` - Callback with error or console log.
-
-
-#### getCoverageReport(jobId, callback)
-
-Get the test coverage report
-
-__Arguments__
-
-* `jobId` - Id of job to retrieve details for
-* `callback(err, report)` - Callback with error or report.
-
-#### getTestReport(jobId, callback)
-
-Get the test report
-
-__Arguments__
-
-* `jobId` - Id of job to retrieve details for
-* `callback(err, report)` - Callback with error or report.
-
-#### delete(jobId, callback)
-
-Delete a job
-
-* `jobId` - Id of job to retrieve details for
-* `callback(err, job)` - Callback with error or details of deleted job.
-
+* `query` - Query object for filtering runs.  See shippable docs for options.
+* `callback(err, runs)` - Callback with error or array of runs.
 
 ### subscriptions
+
+#### delete(subscriptionId, callback)
+
+Deletes a subscription
+
+__Arguments__
+
+* `subscriptionId` - Id of subscription to delete
+* `callback(err, subscription)` - Callback with error or subscription that was deleted.
 
 #### get(subscriptionId, callback)
 
@@ -263,6 +239,15 @@ __Arguments__
 
 * `subscriptionId` - Id of subscription to get details about.
 * `callback(err, subscription)` - Callback with error or subscription details. Subscription is null if not found.
+
+#### getActiveMinionCount(subscriptionId, callback)
+
+Gets the active minion count associated with subscription
+
+__Arguments__
+
+* `subscriptionId` - Id of subscription to get active minion count for.
+* `callback(err, count)` - Callback with error or count.
 
 #### getByOrgName(orgName, callback)
 
@@ -282,24 +267,6 @@ __Arguments__
 
 * `query` - Filter parameters.  See shippable documentation for details
 * `callback(err, subscriptions)` - Callback with error or array of subscriptions.
-
-#### getActiveMinionCount(subscriptionId, callback)
-
-Gets the active minion count associated with subscription
-
-__Arguments__
-
-* `subscriptionId` - Id of subscription to get active minion count for.
-* `callback(err, count)` - Callback with error or count.
-
-#### delete(subscriptionId, callback)
-
-Deletes a subscription
-
-__Arguments__
-
-* `subscriptionId` - Id of subscription to delete
-* `callback(err, subscription)` - Callback with error or subscription that was deleted.
 
 ## People
 
