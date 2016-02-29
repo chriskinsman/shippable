@@ -7,6 +7,24 @@ var shippableApi = new ShippableApi(process.env.SHIPPABLE_TOKEN);
 
 var Tests = {};
 
+Tests.getRuns = function getRuns(test) {
+    shippableApi.runs.list({}, function(err, runs) {
+        test.ifError(err);
+        test.equal(runs!==null, true,'No runs returned');
+        test.done();
+    });
+};
+
+Tests.getRun = function getRun(test) {
+    shippableApi.runs.get('', function(err, run) {
+        test.ifError(err);
+        test.equal(runs!==null, true,'No run returned');
+        test.done();
+    });
+};
+
+
+
 Tests.getProjects = function getProjects(test) {
     shippableApi.projects.list(function(err, projects) {
         test.ifError(err);

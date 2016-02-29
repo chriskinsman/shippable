@@ -128,6 +128,46 @@ __Arguments__
 * `projectId` - Id of the project to search.
 * `callback(err, builds)` - Callback with error or array of builds.
 
+### runs
+
+#### list(query, callback)
+
+List all runs associated with token.
+
+__Arguments__
+
+* `query` - Query object for filtering runs.  See shippable docs for options.
+* `callback(err, runs)` - Callback with error or array of runs.
+
+#### get(runId, callback)
+
+Get details about a run.
+
+__Arguments__
+
+* `runId` - Id of run to retrieve details for
+* `callback(err, run)` - Callback with error or run details.
+
+#### cancel(runId, callback)
+
+Cancels  a run
+
+__Arguments__
+
+* `runId` - Id of run to cancel
+* `callback(err, run)` - Callback with error or results from cancel.
+
+
+#### delete(runId, callback)
+
+Deletes a run
+
+__Arguments__
+
+* `runId` - Id of run to delete
+* `callback(err, run)` - Callback with error or results from delete.
+
+
 ### subscriptions
 
 #### get(subscriptionId, callback)
