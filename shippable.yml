@@ -3,13 +3,9 @@ node_js: 4.2.2
 env:
   - secure: jdczWsrfiHD5hV3ChFLqoXYrA57D20XK2ycffStiaXzWZqxsMA1Ls9OTMUEBxtmbQubyJGu39Jyf9SOwzj3rEC40WZoLoJW9e487s/fuhe26eqq0hopEzxCbbCnf+LXVqJZzVJfhHI9DMJRfYAFR/Q1/VZ14xNUSa/D5C64nIwwnul1yEauDbmcAiUgrsjMSaMhpBDVsn3uH65tH6BaHfRpiUx1E+GythjnGs9fv+oTo48pRETXnuuaQRL318YJw+VTEzRx4txlLkei3Ca36iIoOJo+8wZ6I/GeXJ2kdd1Ih4ewUrSYMRBtkdCKGjYezOuWNcGAza5t81qW4wD9boA==
 
-before_install:
-  - . /root/.nvm/nvm.sh && nvm alias default 4.2.2
-  - node --version
-  - npm --version
-
-install:
-  - shippable_retry npm install
-
-script:
-  - node_modules/.bin/nodeunit ./test/test.js --reporter junit --output shippable/testresults
+build:
+  ci:
+    - node --version
+    - npm --version
+    - shippable_retry npm install
+    - node_modules/.bin/nodeunit ./test/test.js --reporter junit --output shippable/testresults
