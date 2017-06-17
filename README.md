@@ -12,6 +12,36 @@
 $ npm install shippable
 ```
 
+Then require and instantiate `ShippableAPI`
+```
+const ShippableApi = require('shippable');
+const shippable = new ShippableApi('AUTHTOKEN');
+
+// Find a project by name
+shippable.projects.getByFullName('projectName', (err, project) => {
+  console.log(project);
+});
+
+// Find a project master build status
+// For a full list of options available to runs.list,
+// see http://docs.shippable.com/reference/api-overview/#!/Runs/get_runs
+shippable.runs.list({ projectIds: 'PROJECTID', branch: 'master', limit: 1 }, (err, builds) => {
+  // if there are builds, it will be an array with 1 build object
+  console.log(builds);
+});
+
+// Chain the two together to get lastest master build for a project by name
+shippable.projects.getByFullName('projectName', (err, project) => {
+  if (err) {
+    // Do something with an error
+  } else {
+    shippable.runs.list({ projectIds: project.id, branch: 'master', limit: 1 }, (err, builds) => {
+      // builds[0] should be the latest master build
+    });
+  }
+});
+```
+
 ## Features
 
   * Wraps each shippable api
