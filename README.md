@@ -15,6 +15,7 @@ $ npm install shippable
 Then require and instantiate `ShippableAPI`
 ```
 const ShippableApi = require('shippable');
+// See http://docs.shippable.com/reference/api-tokens/ for help with API tokens
 const shippable = new ShippableApi('AUTHTOKEN');
 
 // Find a project by name
